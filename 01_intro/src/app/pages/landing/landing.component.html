@@ -1,4 +1,7 @@
 <h2>Select a user</h2>
+<input id="completedInput" type="checkbox" [(ngModel)]="completedFilter" />
+<label for="completedInput">Completed</label>
+<hr/>
 <select (change)="onSelectedUser($event)" name="" id="">
   <option disabled selected value> Select a user </option>
   <option *ngFor="let user of users$ | async" [value]="user.id">
@@ -19,3 +22,10 @@
     <td>{{ todo.completed ? "🟢" : "🟡" }}</td>
   </tr>
 </table>
+
+<h2>Posts</h2>
+<ul>
+  <li *ngFor="let post of postsByUserId$ | async">
+    {{ post.title }}
+  </li>
+</ul>
