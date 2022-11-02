@@ -9,6 +9,9 @@
   </option>
 </select>
 
+<h2>User Id Modify</h2>
+{{ userIdModify$ | async }}
+
 <h2>Todos</h2>
 <table>
   <tr>
@@ -16,16 +19,16 @@
     <th>Title</th>
     <th>Completed</th>
   </tr>
-  <tr *ngFor="let todo of todosById$ | async">
+  <tr *ngFor="let todo of filteredTodos$ | async">
     <td>{{ todo.id }}</td>
     <td>{{ todo.title }}</td>
     <td>{{ todo.completed ? "🟢" : "🟡" }}</td>
   </tr>
 </table>
 
-<h2>Posts</h2>
+<!-- <h2>Posts</h2>
 <ul>
   <li *ngFor="let post of postsByUserId$ | async">
     {{ post.title }}
   </li>
-</ul>
+</ul> -->
