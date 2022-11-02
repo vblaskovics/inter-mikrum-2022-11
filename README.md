@@ -1,6 +1,6 @@
-# Inter Mikrum oktatás
+# Haladó Angular oktatás
 
-2022.11.02
+*Inter Mikrum, 2022.11.02*
 
 ## Intro projekt
 
