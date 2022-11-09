@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Todo } from 'src/app/todos/todo';
+import { TodoService } from 'src/app/todos/todo.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-landing-todobyname',
@@ -6,10 +9,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./landing-todobyname.component.css']
 })
 export class LandingTodobynameComponent implements OnInit {
+  todos$: Observable<Todo[]> = new Observable<Todo[]>();
 
-  constructor() { }
+  constructor(private todoService:TodoService) { }
 
   ngOnInit(): void {
+    this.todos$ = this.todoService.getTodosByUsername('Bret');
   }
 
 }
