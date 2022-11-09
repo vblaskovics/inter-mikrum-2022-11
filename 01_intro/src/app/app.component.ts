@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, forkJoin } from 'rxjs';
 import { Post } from './posts/post';
 import { PostService } from './posts/post.service';
 import { User } from './users/user';
@@ -20,8 +20,9 @@ export class AppComponent {
 
   ngOnInit() {
     // this.getPostsWithUsernameSubscribe();
-    this.getPostsWithUsernamePromise();
+    // this.getPostsWithUsernamePromise();
     // this.getPostsWithUsernameAwait();
+    this.getPostsWithUsernameStream();
   }
 
   getPostsWithUsernameSubscribe(): void {
@@ -53,4 +54,32 @@ export class AppComponent {
     })
   }
 
+  async getPostsWithUsernameAwait() {
+    let users = await firstValueFrom(this.userService.getUsers());
+    let posts = await firstValueFrom(this.postService.getPosts());
+
+    let postsWithUsername = posts.map((post) => {
+      const user = users.find((user) => user.id === post.userId);
+      if (!user) return post;
+      return { ...post, username: user.username };
+    });
+    console.log('Posts with username', postsWithUsername);
+  }
+
+  getPostsWithUsernameStream() {
+    forkJoin({
+      users: this.userService.getUsers(),
+      posts: this.postService.getPosts()
+    }).subscribe((res) => {
+      let users = res.users;
+      let posts = res.posts;
+
+      let postsWithUsername = posts.map((post) => {
+        const user = users.find((user) => user.id === post.userId);
+        if (!user) return post;
+        return { ...post, username: user.username };
+      });
+      console.log('Posts with username', postsWithUsername);
+    });
+  }
 }
