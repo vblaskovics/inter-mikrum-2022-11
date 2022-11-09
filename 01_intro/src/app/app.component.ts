@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
+import { Post } from './posts/post';
 import { PostService } from './posts/post.service';
+import { User } from './users/user';
 import { UserService } from './users/user.service';
 
 @Component({
@@ -16,7 +19,9 @@ export class AppComponent {
   ) {}
 
   ngOnInit() {
-    this.getPostsWithUsernameSubscribe();
+    // this.getPostsWithUsernameSubscribe();
+    this.getPostsWithUsernamePromise();
+    // this.getPostsWithUsernameAwait();
   }
 
   getPostsWithUsernameSubscribe(): void {
@@ -31,4 +36,21 @@ export class AppComponent {
       });
     });
   }
+
+  getPostsWithUsernamePromise(): void {
+    let postsWithUsername;
+    let usersPromise = firstValueFrom(this.userService.getUsers());
+    usersPromise.then((users:User[]) => {
+      let postsPromise = firstValueFrom(this.postService.getPosts());
+      postsPromise.then((posts:Post[]) => {
+        postsWithUsername = posts.map((post) => {
+          const user = users.find((user) => user.id === post.userId);
+          if (!user) return post;
+          return { ...post, username: user.username };
+        });
+        console.log('Posts with username', postsWithUsername);
+      })
+    })
+  }
+
 }
