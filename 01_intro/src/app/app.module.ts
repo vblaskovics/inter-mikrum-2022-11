@@ -5,11 +5,13 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { LandingComponent } from './pages/landing/landing.component';
+import { LandingTodobynameComponent } from './pages/landing-todobyname/landing-todobyname.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LandingComponent
+    LandingComponent,
+    LandingTodobynameComponent
   ],
   imports: [
     BrowserModule,
