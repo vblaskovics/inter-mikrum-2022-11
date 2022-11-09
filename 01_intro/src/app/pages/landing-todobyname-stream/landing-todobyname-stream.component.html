@@ -1,1 +1,7 @@
-<p>landing-todobyname-stream works!</p>
+<h2>Stream Bret's todos:</h2>
+
+<ul>
+  <li *ngFor="let todo of todos$ | async">
+    {{ todo.title }}
+  </li>
+</ul>
