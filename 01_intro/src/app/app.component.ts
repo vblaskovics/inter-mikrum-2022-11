@@ -14,6 +14,8 @@ import { UserService } from './users/user.service';
 export class AppComponent {
   title = '01_intro';
 
+  pageState = true;
+
   constructor(
     private userService: UserService,
     private postService: PostService,
