@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { firstValueFrom, forkJoin } from 'rxjs';
+import { firstValueFrom, forkJoin, map, tap } from 'rxjs';
 import { Post } from './posts/post';
 import { PostService } from './posts/post.service';
 import { User } from './users/user';
@@ -22,7 +22,8 @@ export class AppComponent {
     // this.getPostsWithUsernameSubscribe();
     // this.getPostsWithUsernamePromise();
     // this.getPostsWithUsernameAwait();
-    this.getPostsWithUsernameStream();
+    // this.getPostsWithUsernameStream();
+    this.getPostsWithUsernameStream2();
   }
 
   getPostsWithUsernameSubscribe(): void {
@@ -41,17 +42,17 @@ export class AppComponent {
   getPostsWithUsernamePromise(): void {
     let postsWithUsername;
     let usersPromise = firstValueFrom(this.userService.getUsers());
-    usersPromise.then((users:User[]) => {
+    usersPromise.then((users: User[]) => {
       let postsPromise = firstValueFrom(this.postService.getPosts());
-      postsPromise.then((posts:Post[]) => {
+      postsPromise.then((posts: Post[]) => {
         postsWithUsername = posts.map((post) => {
           const user = users.find((user) => user.id === post.userId);
           if (!user) return post;
           return { ...post, username: user.username };
         });
         console.log('Posts with username', postsWithUsername);
-      })
-    })
+      });
+    });
   }
 
   async getPostsWithUsernameAwait() {
@@ -69,7 +70,7 @@ export class AppComponent {
   getPostsWithUsernameStream() {
     forkJoin({
       users: this.userService.getUsers(),
-      posts: this.postService.getPosts()
+      posts: this.postService.getPosts(),
     }).subscribe((res) => {
       let users = res.users;
       let posts = res.posts;
@@ -81,5 +82,26 @@ export class AppComponent {
       });
       console.log('Posts with username', postsWithUsername);
     });
+  }
+
+  getPostsWithUsernameStream2() {
+    let forkJoinOps = {
+      users: this.userService.getUsers(),
+      posts: this.postService.getPosts(),
+    } 
+    forkJoin(forkJoinOps)
+      .pipe(
+        map((res:{users:Array<User>, posts:Array<Post>}) => {
+          let users = res.users;
+          let posts = res.posts;
+          return posts.map((post) => {
+            const user = users.find((user) => user.id === post.userId);
+            if (!user) return post;
+            return { ...post, username: user.username };
+          });
+        }),
+        tap((res) => console.log('Posts with username', res))
+      )
+      .subscribe();
   }
 }
