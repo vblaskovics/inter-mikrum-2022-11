@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { TodoService } from 'src/app/todos/todo.service';
+import { timer } from 'rxjs';
 
 @Component({
   selector: 'app-landing-todobyname-stream',
@@ -7,9 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LandingTodobynameStreamComponent implements OnInit {
 
-  constructor() { }
+  constructor(private todoService:TodoService) { }
 
   ngOnInit(): void {
+    timer(0, 2000).subscribe((e) => {
+      console.log(e);
+    })
   }
 
 }
