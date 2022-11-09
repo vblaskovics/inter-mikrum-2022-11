@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { firstValueFrom, forkJoin, map, tap } from 'rxjs';
+import { firstValueFrom, forkJoin, map, switchMap, tap } from 'rxjs';
 import { Post } from './posts/post';
 import { PostService } from './posts/post.service';
+import { TodoService } from './todos/todo.service';
 import { User } from './users/user';
 import { UserService } from './users/user.service';
 
@@ -15,7 +16,8 @@ export class AppComponent {
 
   constructor(
     private userService: UserService,
-    private postService: PostService
+    private postService: PostService,
+    private todoService: TodoService
   ) {}
 
   ngOnInit() {
@@ -23,7 +25,9 @@ export class AppComponent {
     // this.getPostsWithUsernamePromise();
     // this.getPostsWithUsernameAwait();
     // this.getPostsWithUsernameStream();
-    this.getPostsWithUsernameStream2();
+    // this.getPostsWithUsernameStream2();
+    this.getTodosByUsername('Bret');
+    this.getTodosByUsernameAwait('Bret');
   }
 
   getPostsWithUsernameSubscribe(): void {
@@ -103,5 +107,20 @@ export class AppComponent {
         tap((res) => console.log('Posts with username', res))
       )
       .subscribe();
+  }
+
+  // console.log
+  // NFR: ne töltsd le az összes usert és todot!!!
+  getTodosByUsername(username:string) {
+    this.userService.getUserByUsername(username).pipe(
+      switchMap((user)=> this.todoService.getTodosByUserId(user.id)),
+      tap((todos) => console.log('getTodosByUsername', todos))
+    ).subscribe();
+  }
+  
+  async getTodosByUsernameAwait(username:string) {
+    let user = await firstValueFrom(this.userService.getUserByUsername(username));
+    let todo = await firstValueFrom(this.todoService.getTodosByUserId(user.id));
+    console.log('getTodosByUsernameAwait', todo);
   }
 }
