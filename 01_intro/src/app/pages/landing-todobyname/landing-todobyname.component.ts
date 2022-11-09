@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 })
 export class LandingTodobynameComponent implements OnInit {
   todos$: Observable<Todo[]> = new Observable<Todo[]>();
+  todoArr: Todo[] = [];
 
   constructor(private todoService:TodoService) { }
 
@@ -17,6 +18,9 @@ export class LandingTodobynameComponent implements OnInit {
     setInterval(()=> {
       console.log("Get Bret's todos");
       this.todos$ = this.todoService.getTodosByUsername('Bret');
+      this.todos$.subscribe((todos) => {
+        this.todoArr = todos
+      });
     }, 3000)
   }
 
