@@ -14,7 +14,10 @@ export class LandingTodobynameComponent implements OnInit {
   constructor(private todoService:TodoService) { }
 
   ngOnInit(): void {
-    this.todos$ = this.todoService.getTodosByUsername('Bret');
+    setInterval(()=> {
+      console.log("Get Bret's todos");
+      this.todos$ = this.todoService.getTodosByUsername('Bret');
+    }, 3000)
   }
 
 }
