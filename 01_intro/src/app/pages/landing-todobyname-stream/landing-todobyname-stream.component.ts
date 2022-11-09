@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TodoService } from 'src/app/todos/todo.service';
-import { combineLatest, map, Observable, switchMap, tap, timer } from 'rxjs';
+import { withLatestFrom, map, Observable, switchMap, tap, timer } from 'rxjs';
 import { Todo } from 'src/app/todos/todo';
 
 @Component({
@@ -13,16 +13,14 @@ export class LandingTodobynameStreamComponent implements OnInit {
   constructor(private todoService: TodoService) {}
 
   ngOnInit(): void {
-    this.todos$ = timer(0, 2000).pipe(
-      switchMap(() => {
-        return this.todoService.getTodosByUsername('Bret')
-      })
-    );
+    // this.todos$ = timer(0, 2000).pipe(
+    //   tap(() => console.log('todo stream')),
+    //   switchMap(() => {
+    //     return this.todoService.getTodosByUsername('Bret')
+    //   })
+    // );
 
-    // this.todos$ = combineLatest([
-    //   timer(0, 2000),
-    //   this.todoService.getTodosByUsername('Bret'),
-    // ]).pipe(map((res) => res[1]));
+    this.todos$ = this.todoService.getBretsTodosStream();
 
   }
 }
