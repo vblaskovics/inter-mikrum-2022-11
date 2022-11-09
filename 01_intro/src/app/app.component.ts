@@ -14,13 +14,19 @@ import { UserService } from './users/user.service';
 export class AppComponent {
   title = '01_intro';
 
-  pageState = true;
+  pageState = 0;
 
   constructor(
     private userService: UserService,
     private postService: PostService,
     private todoService: TodoService
   ) {}
+
+  increaseState() {
+    this.pageState += 1;
+    if (this.pageState === 3)
+      this.pageState = 0;
+  }
 
   ngOnInit() {
     // this.getPostsWithUsernameSubscribe();

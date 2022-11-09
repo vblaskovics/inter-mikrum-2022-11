@@ -1,7 +1,8 @@
 <h1>Intro</h1>
 
-<button (click)="pageState = !pageState">Toggle pages</button>
+<button (click)="increaseState()">Toggle pages</button>
 
 
-<app-landing *ngIf="pageState"></app-landing>
-<app-landing-todobyname *ngIf="!pageState"></app-landing-todobyname>
+<app-landing *ngIf="pageState === 0"></app-landing>
+<app-landing-todobyname *ngIf="pageState === 1"></app-landing-todobyname>
+<app-landing-todobyname-stream *ngIf="pageState === 2"></app-landing-todobyname-stream>

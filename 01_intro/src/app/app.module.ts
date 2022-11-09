@@ -6,12 +6,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { LandingComponent } from './pages/landing/landing.component';
 import { LandingTodobynameComponent } from './pages/landing-todobyname/landing-todobyname.component';
+import { LandingTodobynameStreamComponent } from './pages/landing-todobyname-stream/landing-todobyname-stream.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LandingComponent,
-    LandingTodobynameComponent
+    LandingTodobynameComponent,
+    LandingTodobynameStreamComponent
   ],
   imports: [
     BrowserModule,
