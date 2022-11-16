@@ -51,4 +51,31 @@ describe('PostService', () => {
     expect(req.request.method).toEqual('GET');
     req.flush(dummyResponseData);
   });
+
+  it('should return a list of posts with username', () => {
+    service.getPostsWithUsername().subscribe((posts) => {
+      expect(posts.length).toBe(1);
+      expect(posts[0].id).toBe(1);
+      expect(posts[0].username).toBe('username 1');
+    });
+
+    const dummyResponseData = [
+      {
+        userId: 1,
+        id: 1,
+        title: 'title 1',
+        body: 'body 1',
+        user: {
+          username: 'username 1'
+        }
+      },
+    ];
+
+    const req = httpTestingController.expectOne(
+      'https://jsonplaceholder.typicode.com/posts?_expand=user'
+    );
+
+    expect(req.request.method).toEqual('GET');
+    req.flush(dummyResponseData);
+  });
 });
