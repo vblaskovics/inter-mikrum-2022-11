@@ -20,4 +20,8 @@ export class UserService {
       .get<User[]>(`${this.API}?username=${username}`)
       .pipe(map((users) => users[0]));
   }
+
+  createUser(user:User) {
+    console.log('create user', user);
+  }
 }
