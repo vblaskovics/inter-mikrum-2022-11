@@ -1,6 +1,6 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { EnvironmentService } from 'src/app/shared/services/environment.service';
+import { EnvironmentService } from 'src/app/core/services/environment.service';
 
 @Component({
   selector: 'app-home',

@@ -17,7 +17,8 @@ describe('TitleComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TestHostComponent, TitleComponent ],
+      declarations: [ TestHostComponent ],
+      imports: [TitleComponent],
     })
     .compileComponents();
 
@@ -33,6 +34,11 @@ describe('TitleComponent', () => {
   it('should be initialized with title as text from input attribute', () => {
     let compiled = fixture.nativeElement.childNodes[0];
     expect(compiled.textContent).toContain('Test Title');
+  });
+
+  it('should contain a material icon', () => {
+    let compiled = fixture.nativeElement.childNodes[0];
+    expect(compiled.querySelector('mat-icon')).toBeTruthy();
   });
 
 });
