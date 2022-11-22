@@ -1,5 +1,6 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { EnvironmentService } from 'src/app/services/environment.service';
 
 @Component({
   selector: 'app-home',
@@ -9,9 +10,11 @@ import { Router } from '@angular/router';
 export class HomeComponent implements OnInit {
   @HostBinding('attr.data-test') dataTest = 'home';
 
-  constructor(private router:Router) {}
+  apiUrl:string;
 
-  ngOnInit(): void {
-    this.router.navigate(['/users']);
+  constructor(private environmentService:EnvironmentService) {
+    this.apiUrl = this.environmentService.getEnvironment().apiUrl;
   }
+
+  ngOnInit(): void {}
 }
