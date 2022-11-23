@@ -20,7 +20,8 @@ describe('HeaderComponent', () => {
       declarations: [ HeaderComponent ],
       imports: [
         RouterTestingModule.withRoutes([
-          { path: 'home', component: MockComponent}
+          { path: 'home', component: MockComponent},
+          { path: 'users', component: MockComponent}
         ])
       ]
     })
@@ -51,8 +52,17 @@ describe('HeaderComponent', () => {
     tick();
     expect(location.path()).toBe('/home');
   }));
-
-
+  
+  it('should navigate to /users when clicking on users nav', fakeAsync(() => {
+    const compiled = fixture.nativeElement as HTMLElement;
+    const usersNav = compiled.querySelector('[data-test="header-users-nav"]') as any;
+    expect(usersNav).toBeTruthy();
+    const location = TestBed.inject(Location);
+    expect(location.path()).toBe('');
+    usersNav.click();
+    tick();
+    expect(location.path()).toBe('/users');
+  }));
 
 
 });
