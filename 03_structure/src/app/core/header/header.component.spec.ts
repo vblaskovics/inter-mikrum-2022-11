@@ -1,6 +1,15 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component } from '@angular/core';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { Location } from '@angular/common';
 
 import { HeaderComponent } from './header.component';
+import { RouterTestingModule } from '@angular/router/testing';
+
+@Component({
+  selector: 'mock-component',
+  template: '<p>mock</p>'
+})
+class MockComponent {}
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -8,7 +17,12 @@ describe('HeaderComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ HeaderComponent ]
+      declarations: [ HeaderComponent ],
+      imports: [
+        RouterTestingModule.withRoutes([
+          { path: 'home', component: MockComponent}
+        ])
+      ]
     })
     .compileComponents();
 
@@ -20,4 +34,25 @@ describe('HeaderComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should render a brand text inside the header', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+    const brand = compiled.querySelector('[data-test="header-brand"]');
+    expect(brand).toBeTruthy();
+  });
+  
+  it('should navigate to /home when clicking on the brand', fakeAsync(() => {
+    const compiled = fixture.nativeElement as HTMLElement;
+    const brand = compiled.querySelector('[data-test="header-brand"]') as any;
+    expect(brand).toBeTruthy();
+    const location = TestBed.inject(Location);
+    expect(location.path()).toBe('');
+    brand.click();
+    tick();
+    expect(location.path()).toBe('/home');
+  }));
+
+
+
+
 });

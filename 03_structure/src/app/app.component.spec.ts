@@ -31,4 +31,14 @@ describe('AppComponent', () => {
       .withContext('header not found')
       .toBeTruthy();
   });
+
+  it('should have a router-outlet', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('router-outlet'))
+      .withContext('router-outlet not found')
+      .toBeTruthy();
+  });
+
 });
